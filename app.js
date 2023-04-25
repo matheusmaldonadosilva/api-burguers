@@ -9,9 +9,11 @@ const db = require('./db/models');
 
 //include the controllers
 const users = require('./controllers/users');
+const burguers = require('./controllers/burguers');
 
 app.use('/', users);
+app.use('/', burguers);
 
 app.listen(8080, () => {
-	console.log('Server running');
+	console.log('Serviço rodando na porta 8080!');
 });
