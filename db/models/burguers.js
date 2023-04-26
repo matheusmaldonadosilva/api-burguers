@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   Burguers.init({
     name: DataTypes.STRING,
-    description: DataTypes.STRING,
-    ingredients: DataTypes.ARRAY(DataTypes.STRING)
+    type: DataTypes.STRING,
+    description: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Burguers',

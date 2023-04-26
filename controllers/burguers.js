@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db/models/index");
+//const multer  = require('multer')
+//const upload = multer({ dest: './public/data/uploads/' })
 
 router.get("/burguers", async (req, res) => {
 
@@ -74,27 +76,18 @@ router.get("/burguers", async (req, res) => {
   }
 });
 
-router.post("/burguers", async (req, res) => {
-  //receive data sent in body of request
-  var data = req.body;
-  // console.log(data);
-
-  //save in data
-  await db.Burguers.create(data)
-    .then((dataBurguer) => {
-      return res.json({
-        message: "Burguer cadastrado com sucesso!",
-        dataBurguer: dataBurguer,
-      });
-    })
-    .catch((e) => {
-      return res.json({
-        message: e,
-      });
+router.post('/burguers', upload.single('uploaded_file'), async(req, res) => {
+  var id  = req.body;
+  await db.Burguers.create(id)
+  .then((dataBurguer) => {
+    res.json({
+      message: 'Burguer cadastrado com sucesso',
+      dataBurguer: dataBurguer
     });
-
-  return res.json({
-    message: "Burguer cadastrado com sucesso!"
+  }).catch((e) =>{
+    return res.json({
+      message: e
+    });
   });
 });
 
