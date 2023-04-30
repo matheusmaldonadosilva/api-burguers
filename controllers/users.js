@@ -5,9 +5,7 @@ const db = require("../db/models/index");
 router.get("/users", async (req, res) => {
 
   //receive the number of page, when isn't sent the number of page is attribute page one
-  const {
-    page = 1
-  } = req.query;
+  const { page = 1 } = req.query;
 
   //console.log(page);
 
@@ -100,20 +98,24 @@ router.post("/users", async (req, res) => {
 //create of route for view and receive the params id sent in URL
 router.get('/users:id', async (req, res) => {
 
-  const {
-    id
-  } = req.params;
+  const { id } = req.params;
 
   //receive the register of database
-  const user = await db.Users.findOne({
-
-    //select column for recover
-    attribute: ['id', 'name', 'email', 'createdAt', 'updatedAt'],
-    //indicate register it must be return in database
-    where: {
-      id: id
-    }
-  });
+  if(!isNaN()) {
+    const user = await db.Users.findOne({
+  
+      //select column for recover
+      attribute: ['id', 'name', 'email', 'createdAt', 'updatedAt'],
+      //indicate register it must be return in database
+      where: {
+        id: id
+      }
+    });
+  } else{
+    res.json({
+      message: 'ID não é válido'
+    });
+  }
 
   //access the IF case find the register in database
   if (user) {
@@ -130,23 +132,27 @@ router.get('/users:id', async (req, res) => {
 
 //route delete
 router.delete('/users:id', async (req, res) => {
-  const {
-    id
-  } = req.params;
+  const { id } = req.params;
 
-  await db.Users.destroy({
-    where: {
-      id: id
-    }
-  }).then(() => {
+  if(!isNaN()) {
+    await db.Users.destroy({
+      where: {
+        id: id
+      }
+    }).then(() => {
+      res.json({
+        message: 'Usuário apagado com sucesso!'
+      });
+    }).catch(() => {
+      res.status(400).json({
+        message: 'Erro: usuário não foi deletado!'
+      });
+    });
+  } else{
     res.json({
-      message: 'Usuário apagado com sucesso!'
+      message: 'ID não é válido'
     });
-  }).catch(() => {
-    res.status(400).json({
-      message: 'Erro: usuário não foi deletado!'
-    });
-  });
+  }
 
 });
 
@@ -169,7 +175,5 @@ router.put('/users', async (req, res) => {
     });
   });
 });
-
-
 
 module.exports = router;
