@@ -1,7 +1,6 @@
 //include files with environment variable
 require('dotenv').config();
 
-
 //export at credentials of database
 module.exports = {
   "development": {
