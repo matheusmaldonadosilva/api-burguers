@@ -76,7 +76,7 @@ router.get("/burguers", async (req, res) => {
   }
 });
 
-router.post('/burguers', upload.single('uploaded_file'), async(req, res) => {
+router.post('/burguers', async(req, res) => {
   var id  = req.body;
   await db.Burguers.create(id)
   .then((dataBurguer) => {
